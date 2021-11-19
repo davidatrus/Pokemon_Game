@@ -1,0 +1,23 @@
+﻿<Properties StartupConfiguration="{C4C8A198-21AC-8340-44BF-76EFD5AEBD13}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameController.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Pokemon/PokemonBase.cs" Line="162" Column="18" />
+      <File FileName="Assets/Scripts/GamePlay/EvolutionManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Pokemon/PokemonParty.cs" />
+      <File FileName="Assets/Scripts/GameController.cs" Line="79" Column="84" />
+      <File FileName="Assets/Scripts/Pokemon/Pokemon.cs" />
+      <File FileName="Assets/Scripts/Battle/BattleHud.cs" />
+      <File FileName="Assets/Scripts/Player/PlayerController.cs" Line="2" Column="1" />
+      <File FileName="Assets/Scripts/Battle/BattleSystem.cs" />
+      <File FileName="Assets/Scripts/Pokemon/PokemonGiver.cs" />
+      <File FileName="Assets/Scripts/Inventory/Inventory.cs" Line="158" Column="6" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="35a491a6-754d-4429-bab1-818092363bd7" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
