@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5bf034d16b7f4c779e0df0dff585c00, type: 3}
+  m_Name: Water Stone
+  m_EditorClassIdentifier: 
+  name: Water Stone
+  description: "A peculiar stone that makes certain species of Pok\xE9mon evolve.
+    It is a clear, light blue.* An odd stone needed for evolution. It is a clear
+    light blue."
+  icon: {fileID: 21300000, guid: 60ce2c914df544805bce7477a9e3dee0, type: 3}
+  price: 450
+  isSellable: 1

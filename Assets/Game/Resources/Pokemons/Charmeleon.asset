@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d448dd57f3d49c7bf462ba17d03a0f, type: 3}
+  m_Name: Charmeleon
+  m_EditorClassIdentifier: 
+  name: Charmeleon
+  description: 
+  frontSprite: {fileID: 21300000, guid: 7b639ec515c410e4ebf517fc3899e3bd, type: 3}
+  backSprite: {fileID: 21300000, guid: ade6afd9cbd5c1740bf6046d9a18b97d, type: 3}
+  type1: 2
+  type2: 0
+  maxHP: 58
+  attack: 64
+  defence: 58
+  spAttack: 80
+  spDefence: 65
+  speed: 80
+  expYield: 142
+  growthRate: 2
+  catchRate: 45
+  learnableMoves:
+  - moveBase: {fileID: 11400000, guid: 9d556b31fddfa49da90909d87d1524d2, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: 9e4cd255c5e69486181c9055fa1e12d9, type: 2}
+    level: 4
+  - moveBase: {fileID: 11400000, guid: 8f87b80fc8b254b03a4d39ed5ab225a2, type: 2}
+    level: 7
+  - moveBase: {fileID: 11400000, guid: eca444b12be1940f5b60bf4e882ada77, type: 2}
+    level: 10
+  - moveBase: {fileID: 11400000, guid: d9851a532a768406d813de768cbd8d8f, type: 2}
+    level: 13
+  learnableByItems: []
+  evolutions:
+  - evolvesInto: {fileID: 11400000, guid: e47938d8b18bc4742a8b80395a8df422, type: 2}
+    requiredLevel: 36

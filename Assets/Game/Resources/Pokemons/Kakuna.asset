@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d448dd57f3d49c7bf462ba17d03a0f, type: 3}
+  m_Name: Kakuna
+  m_EditorClassIdentifier: 
+  name: 
+  description: 
+  frontSprite: {fileID: 21300000, guid: c27ad235c08644c25b0bbd1b623c6e19, type: 3}
+  backSprite: {fileID: 21300000, guid: 6098b23b2ca684d73b29a1a43522841a, type: 3}
+  type1: 12
+  type2: 8
+  maxHP: 45
+  attack: 25
+  defence: 50
+  spAttack: 25
+  spDefence: 25
+  speed: 35
+  expYield: 72
+  growthRate: 1
+  catchRate: 120
+  learnableMoves:
+  - moveBase: {fileID: 11400000, guid: 1067677e029654a2dabf3327aea8a4e6, type: 2}
+    level: 1
+  learnableByItems: []
+  evolutions:
+  - evolvesInto: {fileID: 11400000, guid: 8c0493acf4c8045b5848c1a7ad9a6192, type: 2}
+    requiredLevel: 10
+    requiredItem: {fileID: 0}

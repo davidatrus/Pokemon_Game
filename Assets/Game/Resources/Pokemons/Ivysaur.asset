@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d448dd57f3d49c7bf462ba17d03a0f, type: 3}
+  m_Name: Ivysaur
+  m_EditorClassIdentifier: 
+  name: Ivysaur
+  description: 
+  frontSprite: {fileID: 21300000, guid: 179bd38ab997c7440844309bc52e708a, type: 3}
+  backSprite: {fileID: 21300000, guid: 653a6fe1d97188644a3747cd5e674bc4, type: 3}
+  type1: 5
+  type2: 8
+  maxHP: 60
+  attack: 63
+  defence: 63
+  spAttack: 80
+  spDefence: 80
+  speed: 60
+  expYield: 142
+  growthRate: 2
+  catchRate: 45
+  learnableMoves:
+  - moveBase: {fileID: 11400000, guid: 9d556b31fddfa49da90909d87d1524d2, type: 2}
+    level: 3
+  - moveBase: {fileID: 11400000, guid: 56354d708424d49828946de2eeca19f5, type: 2}
+    level: 3
+  - moveBase: {fileID: 11400000, guid: b72614e0b85c94df088d0ee376d20a05, type: 2}
+    level: 7
+  - moveBase: {fileID: 11400000, guid: 7c9839e74d60944628b66eaa3bfe63c4, type: 2}
+    level: 6
+  - moveBase: {fileID: 11400000, guid: eca444b12be1940f5b60bf4e882ada77, type: 2}
+    level: 13
+  learnableByItems: []
+  evolutions:
+  - evolvesInto: {fileID: 11400000, guid: 3320311a7a4c5460697e7647c39efd24, type: 2}
+    requiredLevel: 34

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5bf034d16b7f4c779e0df0dff585c00, type: 3}
+  m_Name: Fire Stone
+  m_EditorClassIdentifier: 
+  name: Fire Stone
+  description: Interesting stone seems to evole certain pokemon
+  icon: {fileID: 21300000, guid: d3eeea973c8a6432c84bd1e4c5b10607, type: 3}
+  price: 450
+  isSellable: 1
