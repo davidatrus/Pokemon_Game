@@ -2,28 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using PKMNGAMEUtils.StateMachine;
 
-public enum GameState { FreeRoam,Battle,Dialog,Menu,PartyScreen,Bag, CutScene,Paused, Evolution,Shop}
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] PlayerController PlayerController;
+    [SerializeField] PlayerController playerController;
     [SerializeField] BattleSystem battleSystem;
     [SerializeField] Camera worldCamera;
     [SerializeField] PartyScreen partyScreen;
     [SerializeField] InventoryUI inventoryUI;
 
    // private BuddyController buddy;
-    GameState state;
 
-    GameState prevState;
-    GameState stateBeforeEvolution;
-    
+
+    public StateMachine<GameController> StateMachine { get; private set;}
 
     public SceneDetails CurrentScene { get; private set; }
     public SceneDetails PrevScene { get; private set; }
 
-    MenuController menuController;
 
    public static GameController Instance { get; private set;}
    //public BuddyController Buddy { get => buddy; set => buddy = value; }
@@ -34,8 +31,6 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
-        menuController = GetComponent<MenuController>();
 
         // Cursor.lockState = CursorLockMode.Locked; //lock the cursor.
        //  Cursor.visible = false; //hide the cursor
@@ -51,6 +46,9 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        StateMachine = new StateMachine<GameController>(this);
+        StateMachine.ChangeState(FreeRoamState.i);
+
         battleSystem.OnBattleOver += EndBattle;
 
 
@@ -58,40 +56,13 @@ public class GameController : MonoBehaviour
 
         DIalogManager.Instance.OnShowDialog += () =>
          {
-             prevState = state;
-             state = GameState.Dialog;
+             StateMachine.Push(DialogState.i);
          };
        DIalogManager.Instance.OnDialogFinished += () =>
         {
-            if(state== GameState.Dialog)
-            state = prevState;
+            StateMachine.Pop();
         };
 
-        menuController.onBack += () =>
-        {
-            state = GameState.FreeRoam;
-        };
-
-        menuController.onMenuSelected += OnMenuSelected;
-
-        EvolutionManager.i.OnStartEvolution += () =>
-        {
-            stateBeforeEvolution = state;
-            state = GameState.Evolution;
-        };
-
-
-        EvolutionManager.i.OnCompleteEvolution += () =>
-        {
-            partyScreen.SetPartyData();
-            state = stateBeforeEvolution;
-
-            AudioManager.i.PlayMusic(CurrentScene.SceneMusic, fade:true);
-
-        };
-
-        ShopController.i.OnStart += () => state = GameState.Shop;
-        ShopController.i.OnFinish += () => state = GameState.FreeRoam;
 
     }
 
@@ -99,49 +70,34 @@ public class GameController : MonoBehaviour
     {
         if (paused)
         {
-            prevState = state;
-            state = GameState.Paused;
+            StateMachine.Push(PauseState.i);
         }
         else
         {
-            state = prevState;
+            StateMachine.Pop();
         }
     }
 
-   public void StartBattle()
+
+   public void StartBattle(BattleTrigger trigger) 
     {
-        state = GameState.Battle;
-        battleSystem.gameObject.SetActive(true);
-        worldCamera.gameObject.SetActive(false);
-
-        var playerParty = PlayerController.GetComponent < PokemonParty>();
-        var wildPokemon = CurrentScene.GetComponent<MapArea>().GetRandomWildPokemon();
-
-        var wildPokemonCopy = new Pokemon(wildPokemon.Base, wildPokemon.Level);
-
-        battleSystem.StartBattle(playerParty,wildPokemonCopy);
+        //battle trigger just checking if its water or grass we started battle from
+        BattleState.i.trigger = trigger;
+        StateMachine.Push(BattleState.i);
+       
     }
 
     TrainerController trainer;
 
   public  void StartTrainerBattle(TrainerController trainer)
     {
-        state = GameState.Battle;
-        battleSystem.gameObject.SetActive(true);
-        worldCamera.gameObject.SetActive(false);
-
-
-        this.trainer = trainer;
-        var playerParty = PlayerController.GetComponent<PokemonParty>();
-        var trainerParty = trainer.GetComponent<PokemonParty>();
-       
-
-        battleSystem.StartTrainerBattle(playerParty, trainerParty);
+        BattleState.i.trainer = trainer;
+        StateMachine.Push(BattleState.i);
     }
     public void OnEnterTrainersView(TrainerController trainer)
     {
-        state = GameState.CutScene;
-        StartCoroutine(trainer.TriggerTrainerBattle(PlayerController));
+
+        StartCoroutine(trainer.TriggerTrainerBattle(playerController));
     }
 
     void EndBattle(bool won)
@@ -153,13 +109,10 @@ public class GameController : MonoBehaviour
         }
 
         partyScreen.SetPartyData();
-
-
-        state = GameState.FreeRoam;
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
 
-       var playerParty = PlayerController.GetComponent<PokemonParty>();
+       var playerParty = playerController.GetComponent<PokemonParty>();
       bool hasEvolutions =  playerParty.CheckForEvoultions();
 
         if (hasEvolutions)
@@ -169,59 +122,9 @@ public class GameController : MonoBehaviour
     }
     private void Update()
     {
-        if (state == GameState.FreeRoam)
-        {
-            PlayerController.HandleUpdate();
-
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                menuController.OpenMenu();
-                state = GameState.Menu;
-            }
-        }
-        else if (state == GameState.Battle)
-        {
-            battleSystem.HandleUpdate();
-        }
-        else if(state== GameState.Dialog)
-        {
-            DIalogManager.Instance.HandleUpdate();
-        }
-        else if(state == GameState.Menu)
-        {
-            menuController.HandleUpdate();
-        }
-        else if (state == GameState.PartyScreen)
-        {
-            Action onSelected = () =>
-            {
-                // Pokemon stats screen
-            };
-
-            Action onBack = () =>
-            {
-                partyScreen.gameObject.SetActive(false);
-                state = GameState.FreeRoam;
-            };
-
-            partyScreen.HandleUpdate(onSelected,onBack);
-        }
-        else if (state == GameState.Bag)
-        {
-            Action onBack = () =>
-            {
-                inventoryUI.gameObject.SetActive(false);
-                state = GameState.FreeRoam;
-            };
-
-            inventoryUI.HandleUpdate(onBack);
-        }
+        StateMachine.Exectue(); 
         /*if (Input.GetKeyDown(KeyCode.H))
             PlayerController.GetComponent<PokemonParty>().HealParty(); */
-        else if (state == GameState.Shop)
-        {
-            ShopController.i.HandleUpdate();
-        }
     }
 
     public void SetCurrentScene(SceneDetails currscene)
@@ -230,37 +133,6 @@ public class GameController : MonoBehaviour
         CurrentScene = currscene;
     }
 
-    void OnMenuSelected(int selectedItems)
-    {
-        if (selectedItems == 0)
-        {
-            //pokemon party selected
-
-            partyScreen.gameObject.SetActive(true);
-            state = GameState.PartyScreen;
-
-        }
-        else if (selectedItems == 1)
-        {
-            //bag was selected
-            inventoryUI.gameObject.SetActive(true);
-            state = GameState.Bag;
-
-
-        }
-        else if (selectedItems == 2)
-        {
-            //saving was selected
-            SavingSystem.i.Save("saveSlot1");
-            state = GameState.FreeRoam;
-        }
-        else if(selectedItems==3)
-        {
-            //loading was selected
-            SavingSystem.i.Load("saveSlot1");
-            state = GameState.FreeRoam;
-        }
-    }
 
     public IEnumerator MoveCamera(Vector2 moveOffset, bool waitForFadeOut=false)
     {
@@ -275,7 +147,22 @@ public class GameController : MonoBehaviour
             StartCoroutine(Fader.i.FadeOut(0.5f));
 
     }
+    //visual indicator in game of statemachine and current states and whatever states get pushed & popped.
+    private void OnGUI()
+    {
+        var style = new GUIStyle();
+        style.fontSize = 22;
 
-    public GameState State => state;
+        GUILayout.Label("STATE STACK",style);
+
+        foreach(var state in StateMachine.StateStack)
+        {
+            GUILayout.Label(state.GetType().ToString(), style );
+        }
+    }
+
+    public PlayerController PlayerController => playerController;
+    public Camera WorldCamera => worldCamera;
+    public PartyScreen PartyScreen => partyScreen;
 }
 

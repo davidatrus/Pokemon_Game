@@ -10,6 +10,7 @@ public class TrainerController : MonoBehaviour, Interactable,ISavable
     [SerializeField] Dialog dialogAfterBattle;
     [SerializeField] GameObject exclamation;
     [SerializeField] GameObject fov;
+    [SerializeField] int moneyGiven;
 
     [SerializeField] AudioClip trainerAppearsMusic;
 
@@ -56,8 +57,15 @@ public class TrainerController : MonoBehaviour, Interactable,ISavable
         fov.gameObject.SetActive(false);
     }
 
+    public IEnumerator MoneyToGive()
+    {
+        Wallet.i.AddMoney(moneyGiven);
+        yield return DIalogManager.Instance.ShowDialogText($"You recieved ₽{moneyGiven}");
+    }
     public IEnumerator TriggerTrainerBattle(PlayerController player)
     {
+        GameController.Instance.StateMachine.Push(CutSceneState.i);
+
         AudioManager.i.PlayMusic(trainerAppearsMusic);
 
 
@@ -76,6 +84,8 @@ public class TrainerController : MonoBehaviour, Interactable,ISavable
         //code to show dialog
 
          yield return DIalogManager.Instance.ShowDialog(dialog);
+        GameController.Instance.StateMachine.Pop();
+
         GameController.Instance.StartTrainerBattle(this);
     }
 

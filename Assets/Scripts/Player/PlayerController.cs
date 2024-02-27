@@ -13,12 +13,15 @@ public class PlayerController : MonoBehaviour,ISavable
    
 
     private Vector2 input;
+    public static PlayerController i { get; private set; }
+
     private Character character;
 
 
 
     private void Awake()
-    {
+    { //assigning instance of playerController to be used in other places 
+        i = this;
         character = GetComponent<Character>();
     }
     public void HandleUpdate()
@@ -53,9 +56,9 @@ public class PlayerController : MonoBehaviour,ISavable
         var facingDir = new Vector3(character.Animator.MoveX, character.Animator.MoveY);
        var interactPos= transform.position + facingDir;
 
-        //Debug.DrawLine(transform.position, interactPos, Color.green, 0.5f);
+        
 
-        var collider= Physics2D.OverlapCircle(interactPos, 0.3f, GameLayers.i.InteractableLayer);
+        var collider= Physics2D.OverlapCircle(interactPos, 0.3f, GameLayers.i.InteractableLayer | GameLayers.i.WaterLayer);
         if (collider != null)
         {
            yield return collider.GetComponent<Interactable>()?.Interact(transform);  

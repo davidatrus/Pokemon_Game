@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6f5cda1e3104985bd0cb5c61ae5aad, type: 3}
+  m_Name: Surf
+  m_EditorClassIdentifier: 
+  name: Surf
+  description: Powerful water move, also allows players to surf on water.
+  type: 3
+  power: 85
+  accuracy: 100
+  alwaysHits: 0
+  pp: 20
+  priority: 0
+  category: 1
+  effects:
+    boosts: []
+    status: 0
+    volatileStatus: 0
+  secondaries: []
+  target: 0
+  sound: {fileID: 8300000, guid: bf9d7a260691a4f6da644ed6ba734b8b, type: 3}

@@ -8,6 +8,7 @@ public class CharacterAnimator : MonoBehaviour
     [SerializeField] List<Sprite> walkUpSprites;
     [SerializeField] List<Sprite> walkRightSprites;
     [SerializeField] List<Sprite> walkLeftSprites;
+    [SerializeField] List<Sprite> surfSprites;
     [SerializeField] FacingDirection defultDirection = FacingDirection.Down;
 
 
@@ -16,7 +17,8 @@ public class CharacterAnimator : MonoBehaviour
 
  public float MoveY { get; set; }
  public bool IsMoving { get; set; }
- public bool IsJumping { get; set; }
+    public bool IsSurfing { get; set; }
+    public bool IsJumping { get; set; }
 
     //states
 
@@ -48,33 +50,52 @@ public class CharacterAnimator : MonoBehaviour
     private void Update()
     {
         var prevAnim = currentAnim;
+        //check to see if player is surfing or walking. if not surfing do normal walking animations
+        if (!IsSurfing)
+        {
+            if (MoveX == 1)
+                currentAnim = walkRightAnim;
+            else if (MoveX == -1)
+                currentAnim = walkLeftAnim;
+            else if (MoveY == 1)
+                currentAnim = walkUpAnim;
+            else if (MoveY == -1)
+                currentAnim = walkDownAnim;
 
+            if (currentAnim != prevAnim || IsMoving != wasPreviouslyMoving)
+                currentAnim.Start();
 
-        if (MoveX == 1)
-            currentAnim = walkRightAnim;
-        else if (MoveX == -1)
-            currentAnim = walkLeftAnim;
-        else if (MoveY == 1)
-            currentAnim = walkUpAnim;
-        else if (MoveY == -1)
-            currentAnim = walkDownAnim;
+            if (IsJumping)
+                spriteRenderer.sprite = currentAnim.Frames[currentAnim.Frames.Count - 1]; //setting jump animation to last frame
 
-        if (currentAnim != prevAnim||IsMoving!=wasPreviouslyMoving)
-            currentAnim.Start();
+            else if (IsMoving)
+                currentAnim.HandleUpdate();
+            else
+                spriteRenderer.sprite = currentAnim.Frames[0];
+        }
+        //we are surfing so use the sprites for those  
+        else 
+        {
+            if (MoveX == 1)
+                spriteRenderer.sprite = surfSprites[2];
+            else if (MoveX == -1)
+                spriteRenderer.sprite = surfSprites[3];
+            else if (MoveY == 1)
+                spriteRenderer.sprite = surfSprites[1];
+            else if (MoveY == -1)
+                spriteRenderer.sprite = surfSprites[0];
+        }
 
-        if(IsJumping)
-            spriteRenderer.sprite = currentAnim.Frames[currentAnim.Frames.Count-1]; //setting jump animation to last frame
-
-       else if (IsMoving)
-            currentAnim.HandleUpdate();
-        else
-            spriteRenderer.sprite = currentAnim.Frames[0];
+        
 
         wasPreviouslyMoving = IsMoving;
     }
 
     public void SetFacingDirection(FacingDirection dir)
     {
+        MoveX = 0;
+        MoveY = 0;
+
         if (dir == FacingDirection.Right)
             MoveX = 1;
         else if (dir == FacingDirection.Left)

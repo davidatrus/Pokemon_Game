@@ -245,6 +245,14 @@ public class Pokemon
         OnHPChanged?.Invoke(); //incase we showing pokemon in any hud ie battle hub party screen the hp gets updated too.
         CureStatus();
     }
+    public float GetNormalizedExp()
+    {
+        int currentLevelExp = Base.GetExpForLevel(Level);
+        int nextLevelExp = Base.GetExpForLevel(Level + 1);
+
+        float normalizedExp = (float)(Exp - currentLevelExp) / (nextLevelExp - currentLevelExp);
+        return Mathf.Clamp01(normalizedExp);
+    }
 
     public int Attack
     {

@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PKMNGAMEUtils.SelectionUI;
+using System.Linq;
 
 
-public class PartyScreen : MonoBehaviour
+public class PartyScreen : SelectionUI<TextSlot>
 {
    [SerializeField] Text messageText;
 
@@ -13,19 +15,18 @@ public class PartyScreen : MonoBehaviour
     List<Pokemon> pokemons;
     PokemonParty party;
 
-    int selection = 0;
+   
 
-    public Pokemon SelectedMember => pokemons[selection];
+    public Pokemon SelectedMember => pokemons[selectedItem];
 
 
-    /// <summary>
-    /// allowing party screen to be called from multiple places (Running Turn,AboutToUse,ActionSelection)
-    /// </summary>
-    public BattleState? CalledFrom { get; set; }
+  
 
     public void Init()
     {
         memberSlot = GetComponentsInChildren<PartyMemberUI>(true);
+        SetSelectionSettings(SelectionType.Grid, 2);
+
         party = PokemonParty.GetPlayerParty();
         SetPartyData();
 
@@ -47,50 +48,16 @@ public class PartyScreen : MonoBehaviour
                 memberSlot[i].gameObject.SetActive(false);
         }
 
-        UpdateMemberSelection(selection);
+       var textSlots = memberSlot.Select(m => m.GetComponent<TextSlot>());
+        SetItems(textSlots.Take(pokemons.Count).ToList());
+
         
         messageText.text = "Choose a Pokemon";
+
+
     }
 
-    public void HandleUpdate(Action onSelected, Action onBack)
-    {
-        var previousSelection = selection;
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            ++selection;
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-            --selection;
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-            selection += 2;
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-            selection -= 2;
-
-        selection = Mathf.Clamp(selection, 0, pokemons.Count - 1);
-
-
-        if(selection!=previousSelection)
-            UpdateMemberSelection(selection);
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            onSelected?.Invoke();
-        }
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            onBack?.Invoke();
-        }
-    }
-
-    public void UpdateMemberSelection(int selectedMember)
-    {
-        for(int i = 0; i < pokemons.Count; i++)
-        {
-            if (i == selectedMember)
-                memberSlot[i].SetSelected(true);
-            else
-                memberSlot[i].SetSelected(false);
-        }
-    }
 
     public void ShowIfTmIsUseable(TMItem tmItem)
     {

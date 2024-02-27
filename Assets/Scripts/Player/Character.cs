@@ -27,7 +27,7 @@ public class Character : MonoBehaviour
 
         transform.position = pos;
     }
-    public  IEnumerator Move(Vector2 moveVec, Action OnMoveOver= null /*,bool force = false*/)
+    public  IEnumerator Move(Vector2 moveVec, Action OnMoveOver= null, bool checkCollisions=true )
     {
 
         animator.MoveX = Mathf.Clamp(moveVec.x,-1f,1f);
@@ -47,8 +47,11 @@ public class Character : MonoBehaviour
             //make player jump if he moves off a ledge.
         }
 
-        if (!IsPathClear(targetPos) /*&& !force*/)
+        if (checkCollisions && !IsPathClear(targetPos) )
             yield break;
+        //this make sure we dont keep surf animation while no longer on water. 
+        if (animator.IsSurfing && Physics2D.OverlapCircle(targetPos, 0.3f, GameLayers.i.WaterLayer) == null)
+            animator.IsSurfing = false;
 
         IsMoving = true;
 
@@ -64,16 +67,19 @@ public class Character : MonoBehaviour
         OnMoveOver?.Invoke();
     }
 
-    public void HandleUpdate()
-    {
+    public void HandleUpdate() 
+    { 
         animator.IsMoving = IsMoving;
     }
 
     private bool IsPathClear(Vector3 targetPos)
     {
+        var collisionLayer = GameLayers.i.SolidObjectsLayer | GameLayers.i.InteractableLayer | GameLayers.i.PlayerLayer;
         var diff = targetPos - transform.position;
         var dir = diff.normalized;
-        if (Physics2D.BoxCast(transform.position + dir, new Vector2(0.2f, 0.2f), 0f, dir, diff.magnitude - 1, GameLayers.i.SolidObjectsLayer | GameLayers.i.InteractableLayer| GameLayers.i.PlayerLayer) == true)
+        if (!animator.IsSurfing)
+            collisionLayer = collisionLayer | GameLayers.i.WaterLayer;
+        if (Physics2D.BoxCast(transform.position + dir, new Vector2(0.2f, 0.2f), 0f, dir, diff.magnitude - 1, collisionLayer) == true)
             return false;
 
         return true;
