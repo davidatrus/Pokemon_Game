@@ -1,4 +1,3 @@
-# Welcome to my pokemon recreation in Unity! For this game so far I've realy only been working on features, theres no story for this game yet but there are alot of features i've gone on to implment.  First here are the basic controls:
 ## Controls
 Pause state= Enter
 Confirm action/interact with objects/go through dialog = z 
