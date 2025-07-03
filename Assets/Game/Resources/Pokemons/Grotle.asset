@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d448dd57f3d49c7bf462ba17d03a0f, type: 3}
+  m_Name: Grotle
+  m_EditorClassIdentifier: 
+  name: Grotle
+  description: 
+  frontSprite: {fileID: 21300000, guid: 66bee3cb5f5904cca89dac73e6c11fb1, type: 3}
+  backSprite: {fileID: 21300000, guid: c9fbb7515243c4d2aa6d97e7c2948dc1, type: 3}
+  type1: 5
+  type2: 0
+  maxHP: 75
+  attack: 89
+  defence: 85
+  spAttack: 55
+  spDefence: 65
+  speed: 36
+  expYield: 60
+  growthRate: 1
+  catchRate: 45
+  learnableMoves:
+  - moveBase: {fileID: 11400000, guid: 6b951e90835b24524a53059cc7721a6d, type: 2}
+    level: 3
+  - moveBase: {fileID: 11400000, guid: 0a1a6a5920b624fddaa12add28f905c1, type: 2}
+    level: 10
+  - moveBase: {fileID: 11400000, guid: 9e4cd255c5e69486181c9055fa1e12d9, type: 2}
+    level: 5
+  - moveBase: {fileID: 11400000, guid: eca444b12be1940f5b60bf4e882ada77, type: 2}
+    level: 15
+  learnableByItems:
+  - {fileID: 11400000, guid: 4720316037cbb47ffbf285cea5d76398, type: 2}
+  evolutions:
+  - evolvesInto: {fileID: 11400000, guid: 47e32c8a7b7214bc4b13ca5032ab40de, type: 2}
+    requiredLevel: 36

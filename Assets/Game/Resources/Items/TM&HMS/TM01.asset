@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acc2b216f8fd48d89942023a8862808, type: 3}
+  m_Name: TM01
+  m_EditorClassIdentifier: 
+  name: TM01
+  description: The user generates odd sound waves from its body. It may confuse the
+    target.
+  icon: {fileID: 21300000, guid: 9468259c8bcbe4939b318f36075a30a7, type: 3}
+  price: 0
+  isSellable: 0
+  move: {fileID: 11400000, guid: 22a20394f23a348989717993ae949bdd, type: 2}
+  isHM: 0
